@@ -5,6 +5,7 @@ import PieChart from './Components/PieChart';
 import { calls } from './data/calls';
 import { emails } from './data/emails';
 import { accounts } from './data/accounts';
+import AccountDetailsTable from './Components/AccountDetailsTable';
 function App() {
   const [selected, setSelected] = useState(null);
   const [accountsData, setAccounts] = useState([]);
@@ -22,14 +23,14 @@ function App() {
       emails: emails
     }
   })
-  
+
   useEffect(() => {
     setAccounts(accounts);
     setCalls(calls);
     setEmails(emails);
   }, [])
   return (
-    <div className='h-screen'>
+    <div className='h-screen transition duration-150'>
       <header className='flex  justify-center items-center bg-blue-500 h-24'>
         <div className='w-72'>
           <SlectUser selected={selected} setSelected={setSelected} />
@@ -46,13 +47,15 @@ function App() {
             </div>
           </>
         ) : (
-        <>
-
-          <div className='p-2'>
-            <PieChart data={accountsWithCallsAndEmail} />
-          </div>
-        </>
-      )}
+          <>
+            <div className='p-2'>
+              <PieChart data={accountsWithCallsAndEmail} />
+            </div>
+            <div className='p-2'>
+              <AccountDetailsTable data={accountsWithCallsAndEmail} selectedUser={selected?.userName} />
+            </div>
+          </>
+        )}
       </main>
     </div>
   )

@@ -27,9 +27,7 @@ const CallTypePieChart = ({ data }) => {
     if (!hasData) {
         return null
     }
-    // console.log(callTypeCounts, "callTypeCounts");
-
-
+ 
     const chartData = {
         labels: Object.keys(callTypeCounts),
         datasets: [
@@ -53,28 +51,26 @@ const CallTypePieChart = ({ data }) => {
             },
         ],
     };
-    // function for 
+
     const handleChartClick = async (event, elements) => {
         if (elements && elements.length > 0) {
             const chart = elements[0].element.$context.chart;
-            //  const datasetIndex = elements[0].datasetIndex;
             const index = elements[0].index;
             const label = chart.data.labels[index];
             const selecteInfo = await getSelectedCallType(label)
-            // const value = chart.data.datasets[datasetIndex].data[index];
             setSelectedData({ calls: selecteInfo, callType: label });
         }
     };
     const getSelectedCallType = async (label) => {
         const allCalls = [];
         for (let i = 0; i < data.length; i++) {
-            const account = data[i]; // Access each account object
-            const calls = await account.calls.filter((call) => call.callType === label); // Filter calls by callType
-            allCalls.push(...calls); // Add matching calls to the allCalls array
+            const account = data[i]; 
+            const calls = await account.calls.filter((call) => call.callType === label);
+            allCalls.push(...calls); 
         }
-        return allCalls; // Return the array of matching calls
+        return allCalls;
     };
-    console.log(selectedData, "data");
+
     useEffect(() => {
         setSelectedData([]);
     }, data)
@@ -82,7 +78,7 @@ const CallTypePieChart = ({ data }) => {
         <div className='grid grid-cols-2 gap-4'>
             <div className='bg-blue-200'>
                 <div className="w-full mx-auto p-9">
-                    {/* <h2 className="text-center text-lg font-semibold mb-4">Call Types Distribution</h2> */}
+                    
                     <Pie data={chartData} options={{
                         onClick: (event, elements) => handleChartClick(event, elements),
                     }} />
